@@ -1,21 +1,22 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:registerBook/fragments/HomeScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:registerBook/API/firebase_methods.dart';
+import 'package:registerBook/fragments/event_list_screen.dart';
 import 'package:registerBook/integrations/colors.dart';
-import 'package:http/http.dart' as http;
 import 'package:registerBook/widget/custom_snackbar.dart';
 
-class AddEvent extends StatefulWidget {
+class EditEvent extends StatefulWidget {
+  final Event event;
+  EditEvent({this.event});
   @override
-  _AddEventState createState() => _AddEventState();
+  _EditEventState createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
-  TextEditingController nameTextEditingController = TextEditingController();
+class _EditEventState extends State<EditEvent> {
+  TextEditingController nameTextEditingController;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _isLoad = false;
@@ -32,19 +33,22 @@ class _AddEventState extends State<AddEvent> {
     setState(() {
       _isLoad = true;
     });
-    User firebaseUser = await _auth.currentUser;
-    await http.post('https://registerbook-a5d27.firebaseio.com/eventList.json',
-        body: json.encode({
-          'eventName': nameTextEditingController.text,
-          'createdBy': firebaseUser.uid,
-          'dateTime': DateTime.now().toIso8601String(),
-        }));
-    nameTextEditingController.clear();
+    await Provider.of<FirebaseMethods>(context, listen: false).updateEvent(
+        widget.event.id,
+        nameTextEditingController.text,
+        widget.event.createdBy);
     Navigator.of(context).pop();
-    print("AMit");
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => EventListScreen()));
     setState(() {
       _isLoad = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    nameTextEditingController = TextEditingController(text: widget.event.name);
   }
 
   @override
@@ -52,7 +56,7 @@ class _AddEventState extends State<AddEvent> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text('Add Event'),
+        title: Text('Edit Event'),
       ),
       body: Builder(
         builder: (context) => Container(

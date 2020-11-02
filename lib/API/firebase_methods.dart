@@ -132,6 +132,32 @@ class FirebaseMethods with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateEvent(
+    String eventId,
+    String newName,
+    String createdBy,
+  ) async {
+    final url =
+        'https://registerbook-a5d27.firebaseio.com/eventList/$eventId.json';
+//     final response = await http.get(url);
+//     print(response.body);
+//     final extractData = json.decode(response.body) as Map<String, dynamic>;
+//     if (extractData == null) {
+// //        print('no data');
+//       return;
+//     }
+//     final List<Event> loadedProducts = [];
+//     print(extractData);
+    await http.put(url,
+        body: json.encode({
+          'eventName': newName,
+          'createdBy': createdBy,
+          'dateTime': DateTime.now().toIso8601String(),
+        }));
+    // _eventList = loadedProducts;
+    notifyListeners();
+  }
+
   Future<void> getAndSetVadiInCalendar(String vadiId) async {
     final url =
         'https://registerbook-a5d27.firebaseio.com/Register/$vadiId.json';

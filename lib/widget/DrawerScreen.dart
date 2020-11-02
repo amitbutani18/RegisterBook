@@ -5,6 +5,7 @@ import 'package:registerBook/API/firebase_methods.dart';
 import 'package:registerBook/fragments/add_event.dart';
 import 'package:registerBook/fragments/book_vadi.dart';
 import 'package:registerBook/fragments/add_vadi.dart';
+import 'package:registerBook/fragments/event_list_screen.dart';
 import 'package:registerBook/integrations/colors.dart';
 import 'package:registerBook/stores/login_store.dart';
 
@@ -112,10 +113,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Navigator.of(context).pop();
 
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => AddEvent()));
+                          builder: (BuildContext context) =>
+                              EventListScreen()));
                     },
-                    child: itemList(Icon(Icons.add_circle, color: primaryColor),
-                        "Add Event"),
+                    child: itemList(
+                        Icon(Icons.add_circle, color: primaryColor), "Events"),
                   ),
                   Divider(),
                   15.height,
