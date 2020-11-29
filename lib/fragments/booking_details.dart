@@ -89,6 +89,10 @@ class _BookingDetailsState extends State<BookingDetails> {
                   CustomSubString(
                       subString: widget.vadiForCalendar.mobileNumber),
                   CustomDivider(),
+                  CustomTitle(title: "Other Contact Number"),
+                  CustomSubString(
+                      subString: widget.vadiForCalendar.otherMobile),
+                  CustomDivider(),
                   CustomTitle(title: "Address"),
                   CustomSubString(subString: widget.vadiForCalendar.address),
                   CustomDivider(),

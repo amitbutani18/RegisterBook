@@ -33,6 +33,7 @@ class VadiForCalendar {
   String eventDetails;
   String notes;
   String mobileNumber;
+  String otherMobile;
   DateTime bookingDate;
   String eventName;
   bool isDone;
@@ -42,6 +43,7 @@ class VadiForCalendar {
       this.name,
       this.vadiName,
       this.eventName,
+      this.otherMobile,
       this.billNumber,
       this.adminName,
       this.address,
@@ -182,6 +184,8 @@ class FirebaseMethods with ChangeNotifier {
         eventTime: vadiData['evenTime'],
         eventDetails: vadiData['eventDetails'],
         mobileNumber: vadiData['mobileNumber'],
+        otherMobile:
+            vadiData['otherMobile'] == null ? '' : vadiData['otherMobile'],
         notes: vadiData['notes'],
         vadiName: vadiData['vadiName'],
         eventName: vadiData['eventName'],

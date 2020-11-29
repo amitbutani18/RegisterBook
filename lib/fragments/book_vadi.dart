@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:registerBook/API/firebase_methods.dart';
+import 'package:registerBook/fragments/HomeScreen.dart';
 import 'package:registerBook/integrations/colors.dart';
 import 'package:registerBook/widget/custom_snackbar.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,8 @@ class _BookVadiState extends State<BookVadi> {
   TextEditingController adminNameTextEditingController;
   TextEditingController addressTextEditingController = TextEditingController();
   TextEditingController mobileNumberTextEditingController =
+      TextEditingController();
+  TextEditingController otherMobileNumberTextEditingController =
       TextEditingController();
   TextEditingController eventDetailsTextEditingController =
       TextEditingController();
@@ -196,6 +199,15 @@ class _BookVadiState extends State<BookVadi> {
                     keyboardType: TextInputType.number,
                     controller: mobileNumberTextEditingController,
                     decoration: InputDecoration(labelText: 'Mobile Number'),
+                  ),
+                  TextField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    keyboardType: TextInputType.number,
+                    controller: otherMobileNumberTextEditingController,
+                    decoration:
+                        InputDecoration(labelText: 'Other Contact Number'),
                   ),
                   SizedBox(
                     height: 5,
@@ -394,6 +406,7 @@ class _BookVadiState extends State<BookVadi> {
             'adminName': adminNameTextEditingController.text,
             'billNumber': billNumberTextEditingController.text,
             'mobileNumber': mobileNumberTextEditingController.text,
+            'otherMobile': otherMobileNumberTextEditingController.text,
             'eventDate': _eventDate,
             'evenTime': time.format(context),
             'address': addressTextEditingController.text,
@@ -453,6 +466,8 @@ class _BookVadiState extends State<BookVadi> {
     }
     addressTextEditingController.clear();
     Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
     print("AMit");
     setState(() {
       _isLoad = false;

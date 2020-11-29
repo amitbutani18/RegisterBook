@@ -23,6 +23,7 @@ class _EditBookedVadiState extends State<EditBookedVadi> {
   TextEditingController nameTextEditingController;
   TextEditingController addressTextEditingController;
   TextEditingController mobileNumberTextEditingController;
+  TextEditingController otherMobileNumberTextEditingController;
   TextEditingController billNumberTextEditingController;
   TextEditingController eventDetailsTextEditingController;
   TextEditingController notesTextEditingController;
@@ -65,6 +66,8 @@ class _EditBookedVadiState extends State<EditBookedVadi> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_isInit) {
+      otherMobileNumberTextEditingController =
+          TextEditingController(text: widget.vadiForCalendar.otherMobile);
       billNumberTextEditingController =
           TextEditingController(text: widget.vadiForCalendar.billNumber);
       nameTextEditingController =
@@ -114,6 +117,7 @@ class _EditBookedVadiState extends State<EditBookedVadi> {
             'vadiName': widget.vadiForCalendar.vadiName,
             'adminName': widget.vadiForCalendar.adminName,
             'mobileNumber': mobileNumberTextEditingController.text,
+            'otherMobile': otherMobileNumberTextEditingController.text,
             'eventDate': _eventDate == null
                 ? widget.vadiForCalendar.eventDate.toIso8601String()
                 : _eventDate,
@@ -139,6 +143,7 @@ class _EditBookedVadiState extends State<EditBookedVadi> {
                 adminName: widget.vadiForCalendar.adminName,
                 address: addressTextEditingController.text,
                 bookingDate: widget.vadiForCalendar.bookingDate,
+                otherMobile: otherMobileNumberTextEditingController.text,
                 eventDate: _eventDate == null
                     ? widget.vadiForCalendar.eventDate
                     : _eventDate,
@@ -195,6 +200,15 @@ class _EditBookedVadiState extends State<EditBookedVadi> {
                     controller: mobileNumberTextEditingController,
                     decoration: InputDecoration(labelText: 'Mobile Number'),
                   ),
+                  TextField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    keyboardType: TextInputType.number,
+                    controller: otherMobileNumberTextEditingController,
+                    decoration:
+                        InputDecoration(labelText: 'Other Contact Number'),
+                  ),
                   GestureDetector(
                     onTap: () async {
                       TimeOfDay _currentTime = new TimeOfDay.now();
@@ -224,8 +238,10 @@ class _EditBookedVadiState extends State<EditBookedVadi> {
                     ),
                   ),
                   Container(
+                    // height: 50,
                     width: width,
-                    padding: EdgeInsets.all(0.0),
+                    // margin: EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(top: 18.0),
                     child: DropdownButton<Event>(
                         isExpanded: true,
                         value: _selectedEvent,
